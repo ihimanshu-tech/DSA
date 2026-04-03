@@ -1,27 +1,23 @@
 class Solution {
-    public void merge(int[] num1, int m, int[] num2, int n) {
-        int i = m - 1;
-        int j = n - 1;
-        int k = m + n - 1;
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // Pointers for the end of valid elements in nums1 and nums2
+        int s = m - 1;
+        int e = n - 1;
+        // Pointer for the very end of the nums1 array
+        int pSorted = m + n - 1;
 
-        while (i >= 0 && j >= 0){
-            if (num1[i] > num2[j]){
-                num1[k] = num1[i];
-                i--;
-                k--;
+        // While there are still elements to compare in both arrays
+        while (e >= 0) {
+            // If nums1 still has elements and its element is larger
+            if (s >= 0 && nums1[s] > nums2[e]) {
+                nums1[pSorted] = nums1[s];
+                s--;
+            } else {
+                // Otherwise, the element from nums2 is larger or nums1 is empty
+                nums1[pSorted] = nums2[e];
+                e--;
             }
-            else{
-                num1[k] = num2[j];
-                j--;
-                k--;
-            }
+            pSorted--;
         }
- 
-        while (j>=0){
-            num1[k] = num2[j];
-            j--;
-            k--;
-        }
- 
     }
 }
