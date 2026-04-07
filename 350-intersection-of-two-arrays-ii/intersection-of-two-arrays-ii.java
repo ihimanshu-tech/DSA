@@ -2,29 +2,20 @@ import java.util.*;
 
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        // ArrayList<Integer> set1 = new ArrayList<Integer>();
-        HashMap<Integer, Integer> map = new HashMap<>();
-        ArrayList<Integer> result = new ArrayList<Integer>();
-
-        for (int num : nums1) {
-            // set1.add(num);
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-
-        for (int num : nums2) {
-            if (map.containsKey(num) && map.get(num) > 0) {
-                result.add(num);
-                map.put(num, map.get(num) - 1);
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        
+        int i = 0, j = 0, k = 0;
+        while (i < nums1.length && j < nums2.length) {
+            if (nums1[i] < nums2[j]) {
+                i++;
+            } else if (nums1[i] > nums2[j]) {
+                j++;
+            } else {
+                nums1[k++] = nums1[i++]; // Reuse nums1 to save space
+                j++;
             }
         }
-
-        int[] ans = new int[result.size()];
-        int i = 0;
-
-        for (int num : result) {
-            ans[i++] = num;
-        }
-
-        return ans;
+        return Arrays.copyOfRange(nums1, 0, k);
     }
 }
