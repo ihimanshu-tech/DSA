@@ -1,22 +1,27 @@
-import java.util.ArrayList;
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> perm = new ArrayList<>();
-        helper(nums, perm, ans);
+        backtracker(nums, 0, ans);
         return ans;
     }
-    void helper(int[] nums, List<Integer> perm, List<List<Integer>> ans){
-        // Base case
-        if (perm.size() == nums.length) {
-            ans.add(new ArrayList<>(perm));
+    public void backtracker(int[] nums, int idx, List<List<Integer>> ans) {
+        if(idx == nums.length) {
+            List<Integer> arr = new ArrayList<>(); 
+            for(int n : nums) {
+                arr.add(n);
+            }
+            ans.add(arr);
             return;
         }
-        for (int j = 0; j < nums.length; j++){
-            if (perm.contains(nums[j])) continue; // AVoid Duplicates
-            perm.add(nums[j]); 
-            helper(nums,perm,ans);
-            perm.remove(perm.size() - 1);  // Backtrack
+        for(int i = idx; i < nums.length; i++) {
+            swap(nums, i, idx);
+            backtracker(nums, idx + 1, ans);
+            swap(nums, i, idx);
         }
+    }
+    public void swap(int[] nums, int a, int b) {
+        int tmp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = tmp;
     }
 }
