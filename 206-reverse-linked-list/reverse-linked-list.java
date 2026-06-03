@@ -14,18 +14,15 @@ class Solution {
         ListNode current = head;
         
         while (current != null) {
-            // 1. Temporarily store the next node
+
             ListNode nextTemp = current.next; 
             
-            // 2. Flip the pointer to face backward
             current.next = prev; 
             
-            // 3. Move prev and current forward one step
             prev = current;
             current = nextTemp;
         }
         
-        // After the loop, prev will be the new head
         return prev;
     }
 }
