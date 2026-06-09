@@ -17,31 +17,10 @@ class Solution {
     public boolean hasPathSum(TreeNode root, int targetSum) {
         //if root is null
         if(root==null) return false;
-
-        Stack<TreeNode> path = new Stack<>();
-        Stack<Integer> sumSt = new Stack<>();
-        
-        path.push(root); // [5]
-        sumSt.push(root.val);//[5]
-
-        while(!path.isEmpty()){
-            
-            TreeNode temp = path.pop();
-            int tempVal =sumSt.pop();
-            //if it's leaf temp
-            if(temp.left ==null && temp.right ==null && tempVal == targetSum){
-                return true;
+    
+     if(root.left ==null && root.right ==null){
+                return targetSum==root.val;
             }
-
-            if(temp.left!=null){
-                path.push(temp.left);
-                sumSt.push(temp.left.val + tempVal);//[5,9,20,27]
-            }
-            if(temp.right!=null){
-                path.push(temp.right);
-                sumSt.push(temp.right.val +tempVal); //[5,13,17,18]
-            }
-        }
-        return false;
+    return hasPathSum(root.left,targetSum-root.val)  || hasPathSum(root.right,targetSum-root.val);
     }
 }
