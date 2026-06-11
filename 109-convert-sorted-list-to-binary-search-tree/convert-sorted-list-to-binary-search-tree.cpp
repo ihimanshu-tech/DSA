@@ -24,43 +24,29 @@
 
 class Solution {
 public:
-
-    ListNode* middleNode(ListNode* head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        ListNode* prev = nullptr;
-
-        while(fast && fast->next) {
-            prev = slow;
+    TreeNode* sortedListToBST(ListNode* head) {
+        if (head == nullptr) return nullptr;
+        if (head->next == nullptr) return new TreeNode(head->val);
+        
+        ListNode* slow = head, *fast = head, *slow_prev = nullptr;
+        
+        // Find the middle element (slow pointer)
+        while (fast != nullptr && fast->next != nullptr) {
+            slow_prev = slow;
             slow = slow->next;
             fast = fast->next->next;
         }
-
-        // break left half from middle
-        if(prev)
-            prev->next = nullptr;
-
-        return slow;
-    }
-
-    TreeNode* sortedListToBST(ListNode* head) {
-
-        if(head == nullptr)
-            return nullptr;
-
-        if(head->next == nullptr)
-            return new TreeNode(head->val);
-
-        ListNode* mid = middleNode(head);
-
-        TreeNode* root = new TreeNode(mid->val);
-
-        // left half starts from head
+        
+        // Create root node from the middle element
+        TreeNode* root = new TreeNode(slow->val);
+        
+        // Disconnect the left half from the middle
+        slow_prev->next = nullptr;
+        
+        // Recursively construct left and right subtrees
         root->left = sortedListToBST(head);
-
-        // right half starts from mid->next
-        root->right = sortedListToBST(mid->next);
-
+        root->right = sortedListToBST(slow->next);
+        
         return root;
     }
 };
