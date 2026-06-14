@@ -1,47 +1,46 @@
 class Solution {
+    vector<int> leftMin(vector<int> &arr){
+        int n= arr.size();
+        vector<int> leftMinIndex(n);
+        stack<int> st;
+        for(int i=0;i<n;i++){
+            while(!st.empty() && arr[st.top()] >=arr[i]){
+                st.pop();
+            }
+            leftMinIndex[i] = st.empty() ? -1:st.top();
+            st.push(i);
+        }
+        return leftMinIndex;
+    }
+    vector<int> rightMin(vector<int> &arr){
+        int n= arr.size();
+        vector<int> rightMinIndex(n);
+        stack<int> st;
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && arr[st.top()] >=arr[i]){
+                st.pop();
+            }
+            rightMinIndex[i] = st.empty() ? n:st.top();
+            st.push(i);
+    }
+    return rightMinIndex;
+}
+
 public:
-    int largestRectangleArea(vector<int>& arr) {
-        int n = arr.size();
-
-        vector<int> left(n), right(n);
-
-        // Previous Smaller Element
-        stack<int> st1;
-        for(int i=0; i<n; i++) {
-
-            while(!st1.empty() && arr[st1.top()] >= arr[i])
-                st1.pop();
-
-            if(st1.empty())
-                left[i] = -1;
-            else
-                left[i] = st1.top();
-
-            st1.push(i);
-        }
-
-        // Next Smaller Element
-        stack<int> st2;
-        for(int i=n-1; i>=0; i--) {
-
-            while(!st2.empty() && arr[st2.top()] >= arr[i])
-                st2.pop();
-
-            if(st2.empty())
-                right[i] = n;
-            else
-                right[i] = st2.top();
-
-            st2.push(i);
-        }
-
+    int largestRectangleArea(vector<int>& h) {
+        int n = h.size();
         int maxArea = 0;
+        vector<int> leftMinIndex = leftMin(h);
+        vector<int> rightMinIndex = rightMin(h);
 
-        for(int i=0; i<n; i++) {
-            int area = (right[i] - left[i] - 1) * arr[i];
-            maxArea = max(maxArea, area);
+        // right or left ke difference se width aayegi
+        //smallest element jo nikla hai unke liye end ke idhar udhar jaayege jo sahi widhth claculate ho 
+        //left wala -1 index hoga and right ke liye nth index hogi
+        for(int i=0;i<n;i++){
+                int width = rightMinIndex[i] - leftMinIndex[i] -1;
+                int area = width*h[i];
+                maxArea = max(area,maxArea);
         }
-
         return maxArea;
     }
 };
