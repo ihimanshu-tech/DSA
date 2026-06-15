@@ -3,61 +3,54 @@ public:
     ListNode* sortList(ListNode* head) {
         if (!head || !head->next) 
             return head;
-        
-        ListNode* mid = findMid(head);
-        ListNode* rightHead = mid->next;
-        mid->next = nullptr;
-        
-        ListNode* left = sortList(head);
-        ListNode* right = sortList(rightHead);
-        
-        return merge(left, right);
+   
+        vector<ListNode*> arr;
+        while(head){
+            arr.push_back(head);
+            head = head->next;
+        }
+        mergeSort(arr,0,arr.size()-1);
+        for(int i =0;i<arr.size()-1;i++){
+            arr[i]->next = arr[i+1];
+        }
+        arr[arr.size()-1]->next =nullptr;
+        return arr[0];
     }
 
 private:
-    ListNode* merge(ListNode* a, ListNode* b) {
-        if (!a) return b;
-        if (!b) return a;
-        
-        ListNode* temp = new ListNode(0);
-        ListNode* curr = temp;
-
-        while (a && b) {
-            if (a->val < b->val) {
-                curr->next = a;
-                a = a->next;
-            } else {
-                curr->next = b;
-                b = b->next;
+    void mergeSort(vector<ListNode*>& arr,int s,int e) {
+            if(s>=e){
+                return;
             }
-            curr = curr->next;
+            int mid = s +(e-s)/2;
+            mergeSort(arr,s,mid);
+            mergeSort(arr,mid+1,e);
+            merge(arr,s,e);
         }
-        
-        // Attach whatever is left over from a or b (Moved OUTSIDE the while loop)
-        if (a) {
-            curr->next = a;
+    void merge(vector<ListNode*>& arr,int s,int e){
+        vector<ListNode*> mix;
+        int mid = s+(e-s)/2;
+        int i= s ,j = mid+1;
+        while(i<=mid && j<=e){
+            if(arr[i]->val<=arr[j]->val){
+                mix.push_back(arr[i]);
+                i++;
+            }
+            else{
+                mix.push_back(arr[j]);
+                j++;
+            }   
         }
-        if (b) {
-            curr->next = b;
+        while(i<=mid){
+            mix.push_back(arr[i]);
+            i++;            
+        } 
+        while(j<=e){
+            mix.push_back(arr[j]);
+            j++;            
+        } 
+        for(int i=s,j=0;i<=e;i++,j++){
+            arr[i] = mix[j];
         }
-        
-        ListNode* ans = temp->next;
-        return ans;
-    }
-    
-    ListNode* findMid(ListNode* head) {
-        // Fixed the base case logic
-        if (!head || !head->next) 
-            return head;
-            
-        ListNode* slow = head;
-        ListNode* fast = head->next;
-        
-        while (fast && fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        
-        return slow;
     }
 };
