@@ -7,7 +7,7 @@ class Solution {
         List<List<Integer>> list = new ArrayList<>();
         int n = nums.length;
 
-        // Step 2: Fix first element (i)
+        // Fix first element
         for (int i = 0; i < n - 2; i++) {
 
             // Skip duplicate values for i
@@ -16,7 +16,7 @@ class Solution {
             int left = i + 1;        // second pointer
             int right = n - 1;       // third pointer
 
-            // Step 3: Two pointer traversal
+            // Two pointer traversal
             while (left < right) {
 
                 int sum = nums[i] + nums[left] + nums[right];
