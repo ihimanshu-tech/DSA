@@ -28,9 +28,9 @@ private:
         int rightHeight = calculateHeight(node->right, maxDiameter);
 
         // Update the maximum diameter found so far
-        maxDiameter = std::max(maxDiameter, leftHeight + rightHeight);
+        maxDiameter = max(maxDiameter, leftHeight + rightHeight);
 
         // Return the height of the current node's subtree
-        return 1 + std::max(leftHeight, rightHeight);
+        return 1 + max(leftHeight, rightHeight);
     }
 };
