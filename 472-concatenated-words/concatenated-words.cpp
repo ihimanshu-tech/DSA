@@ -28,14 +28,11 @@ public:
             string word = words[i];
             if (word.empty()) continue;
 
-            // 2. Erase current word so it doesn't match itself
-            // st.erase(word);
-
             if (isConcatenated(word, st))
                 result.push_back(word);
 
             // Re-insert after checking
-            st.insert(word);
+           
         }
         return result;
     }
