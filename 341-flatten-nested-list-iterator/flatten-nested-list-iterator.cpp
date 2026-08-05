@@ -42,7 +42,7 @@ public:
             if (curr.isInteger()) {
                 return true;
             }
-            //unpack the list
+            // unpack the list
             s.pop();
             const auto& currList = curr.getList();
 
