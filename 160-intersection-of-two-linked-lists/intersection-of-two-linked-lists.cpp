@@ -8,21 +8,21 @@
  */
 class Solution {
 public:
-    ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
-         	// Search it in first list
-    while (head2 != nullptr) {
-        ListNode *temp = head1;
-        while (temp) {
-          
-            // If both Nodes are same
-            if (temp == head2)
-                return head2;
-            temp = temp->next;
+    ListNode* getIntersectionNode(ListNode* head1, ListNode* head2) {
+        unordered_set<ListNode*> visNode;
+        ListNode *curr1 = head1;
+        while (curr1 != nullptr) {
+            visNode.insert(curr1);
+            curr1 = curr1->next;
         }
-        head2 = head2->next;
-    }
-  	
-    // intersection is not present between the lists
-    return nullptr;
+        ListNode *curr2 = head2;
+        while(curr2){
+            if(visNode.find(curr2) != visNode.end()){
+                return curr2;
+            }
+            curr2 = curr2->next;
+        }
+        // intersection is not present between the lists
+        return nullptr;
     }
 };
