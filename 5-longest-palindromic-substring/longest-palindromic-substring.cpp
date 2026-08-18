@@ -1,33 +1,29 @@
 class Solution {
+    bool solve(string &s, int i, int j){
+        if(i>=j)
+            return true;
+        
+        if(s[i] == s[j])
+            return solve(s,i+1,j-1);
+        return false;
+    }
 public:
     string longestPalindrome(string s) {
     int n = s.length();
-    int start = 0, maxLen = 1;
+
+    int maxLen = INT_MIN;
+    int sp = 0;
+    
 
     for (int i = 0; i < n; i++) {
-
-        // this runs two times for both odd and even 
-        // length palindromes. 
-        // j = 0 means odd and j = 1 means even length
-        for (int j = 0; j <= 1; j++) {
-            int low = i;
-            int high = i + j; 
-
-            // expand substring while it is a palindrome
-            // and in bounds
-            while (low >= 0 && high < n && s[low] == s[high]) 
-            {
-                int currLen = high - low + 1;
-                if (currLen > maxLen) {
-                    start = low;
-                    maxLen = currLen;
-                }
-                low--;
-                high++;
+        for (int j = i; j < n; j++) {
+            if(solve(s,i,j) ==true){
+                if(j-i+1>maxLen)
+                {maxLen = j-i+1;
+                sp=i;}
             }
         }
     }
-
-    return s.substr(start, maxLen);
+    return s.substr(sp, maxLen);
     }
 };
