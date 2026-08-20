@@ -32,7 +32,6 @@ public:
                     q.push(curr->right);
                     //queue se 
                 }
-
                 n--;
             }
             ans.push_back(tmp);
