@@ -1,42 +1,32 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-        ListNode* ptr = head;
-        stack<ListNode*> st;
-        if(head==nullptr || head->next == nullptr)
-            return true;
-        ListNode* curr = middle(head);
-        while(curr!=nullptr){
-            st.push(curr);
-            curr = curr->next;
+    ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        while (curr != nullptr) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
-        while(!st.empty()){
-            if(st.top()->val != ptr->val)
-                return false;
-            st.pop();
-            ptr = ptr->next;
-        }
-        return true;
+        return prev;
     }
-    ListNode* middle(ListNode* head){
-       if(head==nullptr || head->next == nullptr)
-            return head;
-        ListNode* fast = head;
+    
+    bool isPalindrome(ListNode* head) {
         ListNode* slow = head;
-        while(fast!=nullptr && fast->next !=nullptr){
+        ListNode* fast = head;
+        while (fast != nullptr && fast->next != nullptr) {
             slow = slow->next;
             fast = fast->next->next;
         }
-    return slow;    
+        ListNode* rev = reverse(slow);
+        while (rev != nullptr) {
+            if (head->val != rev->val) {
+                return false;
+            }
+            head = head->next;
+            rev = rev->next;
+        }
+        return true;
     }
 };
