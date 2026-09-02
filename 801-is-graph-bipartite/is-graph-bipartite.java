@@ -1,8 +1,8 @@
 class Solution {
-    private boolean dfs(int node, int col, int[] color, int[][] graph){
+    private boolean dfs(int node, int col, int[] color, int[][] graph) {
         color[node] = col;
 
-        for(int it:graph[node]){
+        for (int it : graph[node]) {
             if(color[it]==-1){
                 if(dfs(it,1-col,color,graph)==false)
                     return false;
@@ -11,14 +11,18 @@ class Solution {
         }
         return true;
     }
+
     public boolean isBipartite(int[][] graph) {
-        int color[] = new int[graph.length];
+        int[] color = new int[graph.length];
         int V = graph.length;
-        for(int i = 0; i<V;i++) color[i] =-1;
-        
-        for(int i = 0; i<V;i++){
-            if(color[i]==-1)
-                if(dfs(i,0,color,graph)==false) return false;
+        for (int i = 0; i < V; i++)
+            color[i] = -1;
+
+        for (int i = 0; i < V; i++) {
+            if (color[i] == -1) {
+                if (dfs(i, 0, color, graph) == false)
+                    return false;
+            }
         }
         return true;
     }
