@@ -4,7 +4,7 @@ class Solution {
         int left = 0;
         Map<Character, Integer> count = new HashMap<>();
 
-        for (int right = 0; right < s.length(); right++) {
+        for(int right = 0; right < s.length(); right++) {
             char c = s.charAt(right);
             count.put(c, count.getOrDefault(c, 0) + 1);
             
