@@ -1,25 +1,55 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        
-        stack<string> stk;
-        int n = s.size();
-        for (int i = 0; i < n; i++) {
-            if (s[i] == ' ')
-                continue;
-            string temp;
-            while (i<n && s[i] != ' ' ) {
+
+        // Remove extra spaces
+        string temp;
+        int i = 0;
+
+        while (i < s.length()) {
+            while (i < s.length() && s[i] == ' ')
+                i++;
+
+            if (i >= s.length())
+                break;
+
+            if (!temp.empty())
+                temp += ' ';
+
+            while (i < s.length() && s[i] != ' ') {
                 temp += s[i];
                 i++;
             }
-            stk.push(temp);
         }
-        string ans;
-        while(!stk.empty()){
-            ans = ans+ stk.top() + " ";
-            stk.pop();
+
+        s = temp;
+
+        // Reverse entire string
+        reverse(s, 0, s.length());
+
+        // Reverse every word
+        int left = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == ' ') {
+                reverse(s, left, i);
+                left = i + 1;
+            }
         }
-        ans.pop_back();
-        return ans;
+
+        // Reverse last word
+        reverse(s, left, s.length());
+
+        return s;
+    }
+
+private:
+    void reverse(string& s, int left, int right) {
+
+        while (left < right - 1) {
+            swap(s[left], s[right - 1]);
+            left++;
+            right--;
+        }
     }
 };
