@@ -19,17 +19,14 @@ class Solution {
             if (!set.contains(num - 1)) {
                 int currentNum = num;
                 int currentLen = 1;
-
                 // Count how long the sequence goes
                 while (set.contains(currentNum + 1)) {
                     currentNum += 1;
                     currentLen += 1;
                 }
-
                 maxLen = Math.max(maxLen, currentLen);
             }
         }
-
         return maxLen;
     }
 }
